@@ -1,0 +1,63 @@
+#include<stdio.h>
+#include<stdlib.h>
+int main()
+{ int i,j,n,s,cost[10][10],dist[10];
+printf("Enter the number of nodes : \n");
+scanf("%d",&n);
+printf("read cost matrix:\n");// for reading graph matrix
+for(i=1;i<=n;i++)
+{
+for(j=1;j<=n;j++)
+{
+scanf("%d",&cost[i][j]);
+if(cost[i][j]==0)
+{
+cost[i][j]=1000;//intializing 1000 as infinity
+}
+}
+}
+printf("\n Read source vertex:");// enter the source vertex
+scanf("%d",&s);
+dijstras(n,cost,s,dist); // calling the function
+printf("\n The sortest path from %d is\n",s); // printing the shortest path
+for(i=1;i<=n;i++)
+{
+if(s!=i)
+{
+printf("%d-->%d=%d\n",s,i,dist[i]);
+}
+}
+return 0;
+}
+void dijstras(int n,int cost[10][10],int s,int dist[10])
+{
+int i,v,count=1,min,visited[10];
+for(i=1;i<=n;i++)
+{
+visited[i]=0; // marking all the vertexes as not visited
+dist[i]=cost[s][i]; //assigning distance from source to i
+}
+visited[s]=1; // marking as source node is visited
+dist[s]=0; //distance of source will be 0
+while(count<=n)
+{
+min=1000;
+for(i=1;i<=n;i++)
+{
+if(dist[i]<min&&visited[i]==0) // checking if distance of node=i is less than min(infinity) and the if node is visited or not
+{
+min=dist[i]; // updating the distance of node if it is less then min(infinity)
+v=i; //initalizing i as v
+}
+}
+visited[v]=1; //marking node as visited
+count++;
+for(i=1;i<=n;i++)
+{
+if(dist[i]>dist[v]+cost[v][i])
+{
+dist[i]=dist[v]+cost[v][i];
+}
+}
+}
+}
